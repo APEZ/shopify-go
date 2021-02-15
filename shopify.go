@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 type Param struct {
@@ -39,6 +40,9 @@ func handleError(err error) {
 // handle api request
 func doRequest(store *Store, method, endpoint string, params []Param, body interface{}) (respBody []byte) {
 	bodyJson, err := json.Marshal(body)
+	if body == nil {
+		bodyJson = []byte{}
+	}
 	handleError(err)
 	queryString := url.Values{}
 	if len(params) > 0 {
@@ -47,8 +51,7 @@ func doRequest(store *Store, method, endpoint string, params []Param, body inter
 		}
 	}
 	endpoint, client := fmt.Sprintf("https://%s.myshopify.com/admin/api/%s/%s?%s", store.Name, store.Version, endpoint, queryString.Encode()), &http.Client{}
-	fmt.Println(bodyJson, endpoint, queryString)
-	req, err := http.NewRequest(method, endpoint, bytes.NewBuffer(bodyJson))
+	req, err := http.NewRequest(strings.ToUpper(method), endpoint, bytes.NewBuffer(bodyJson))
 	handleError(err)
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("X-Shopify-Access-Token", store.Password)
