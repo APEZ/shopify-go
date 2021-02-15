@@ -2,7 +2,6 @@ package shopify
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 type Orders struct {
@@ -290,8 +289,6 @@ func (store *Store) GetOrders(params ...Param) []Order {
 	bytes := doRequest(store, "get", "/orders.json", params, nil)
 	orders := Orders{}
 	err := json.Unmarshal(bytes, &orders)
-	if err != nil {
-		fmt.Println(err)
-	}
+	handleError(err)
 	return orders.Orders
 }
