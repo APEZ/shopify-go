@@ -47,7 +47,8 @@ func doRequest(store *Store, method, endpoint string, params []Param, body inter
 		}
 	}
 	endpoint, client := fmt.Sprintf("https://%s.myshopify.com/admin/api/%s/%s?%s", store.Name, store.Version, endpoint, queryString.Encode()), &http.Client{}
-	req, _ := http.NewRequest(method, endpoint, bytes.NewBuffer(bodyJson))
+	req, err := http.NewRequest(method, endpoint, bytes.NewBuffer(bodyJson))
+	handleError(err)
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("X-Shopify-Access-Token", store.Password)
 	response, err := client.Do(req)
