@@ -15,24 +15,6 @@ type ClientDetails struct {
 	SessionHash    interface{} `json:"session_hash"`
 	UserAgent      string      `json:"user_agent"`
 }
-type ShopMoney struct {
-	Amount       string `json:"amount"`
-	CurrencyCode string `json:"currency_code"`
-}
-type PresentmentMoney struct {
-	Amount       string `json:"amount"`
-	CurrencyCode string `json:"currency_code"`
-}
-type PriceSet struct {
-	ShopMoney        ShopMoney        `json:"shop_money"`
-	PresentmentMoney PresentmentMoney `json:"presentment_money"`
-}
-type TaxLines struct {
-	Price    string   `json:"price"`
-	Rate     float64  `json:"rate"`
-	Title    string   `json:"title"`
-	PriceSet PriceSet `json:"price_set"`
-}
 type TotalLineItemsPriceSet struct {
 	ShopMoney        ShopMoney        `json:"shop_money"`
 	PresentmentMoney PresentmentMoney `json:"presentment_money"`
@@ -57,10 +39,6 @@ type TotalTaxSet struct {
 	ShopMoney        ShopMoney        `json:"shop_money"`
 	PresentmentMoney PresentmentMoney `json:"presentment_money"`
 }
-type TotalDiscountSet struct {
-	ShopMoney        ShopMoney        `json:"shop_money"`
-	PresentmentMoney PresentmentMoney `json:"presentment_money"`
-}
 type OriginLocation struct {
 	ID           int64  `json:"id"`
 	CountryCode  string `json:"country_code"`
@@ -70,36 +48,6 @@ type OriginLocation struct {
 	Address2     string `json:"address2"`
 	City         string `json:"city"`
 	Zip          string `json:"zip"`
-}
-type LineItems struct {
-	ID                         int64            `json:"id"`
-	VariantID                  int64            `json:"variant_id"`
-	Title                      string           `json:"title"`
-	Quantity                   int              `json:"quantity"`
-	Sku                        string           `json:"sku"`
-	VariantTitle               string           `json:"variant_title"`
-	Vendor                     string           `json:"vendor"`
-	FulfillmentService         string           `json:"fulfillment_service"`
-	ProductID                  int64            `json:"product_id"`
-	RequiresShipping           bool             `json:"requires_shipping"`
-	Taxable                    bool             `json:"taxable"`
-	GiftCard                   bool             `json:"gift_card"`
-	Name                       string           `json:"name"`
-	VariantInventoryManagement interface{}      `json:"variant_inventory_management"`
-	Properties                 []interface{}    `json:"properties"`
-	ProductExists              bool             `json:"product_exists"`
-	FulfillableQuantity        int              `json:"fulfillable_quantity"`
-	Grams                      int              `json:"grams"`
-	Price                      string           `json:"price"`
-	TotalDiscount              string           `json:"total_discount"`
-	FulfillmentStatus          interface{}      `json:"fulfillment_status"`
-	PriceSet                   PriceSet         `json:"price_set"`
-	TotalDiscountSet           TotalDiscountSet `json:"total_discount_set"`
-	DiscountAllocations        []interface{}    `json:"discount_allocations"`
-	Duties                     []interface{}    `json:"duties"`
-	AdminGraphqlAPIID          string           `json:"admin_graphql_api_id"`
-	TaxLines                   []TaxLines       `json:"tax_lines"`
-	OriginLocation             OriginLocation   `json:"origin_location"`
 }
 type DiscountedPriceSet struct {
 	ShopMoney        ShopMoney        `json:"shop_money"`

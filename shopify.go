@@ -22,6 +22,59 @@ type Store struct {
 	Version string
 }
 
+type ShopMoney struct {
+	Amount       string `json:"amount"`
+	CurrencyCode string `json:"currency_code"`
+}
+type PresentmentMoney struct {
+	Amount       string `json:"amount"`
+	CurrencyCode string `json:"currency_code"`
+}
+type PriceSet struct {
+	ShopMoney        ShopMoney        `json:"shop_money"`
+	PresentmentMoney PresentmentMoney `json:"presentment_money"`
+}
+type TotalDiscountSet struct {
+	ShopMoney        ShopMoney        `json:"shop_money"`
+	PresentmentMoney PresentmentMoney `json:"presentment_money"`
+}
+type TaxLines struct {
+	Title    string   `json:"title"`
+	Price    string   `json:"price"`
+	Rate     float64  `json:"rate"`
+	PriceSet PriceSet `json:"price_set"`
+}
+type LineItems struct {
+	ID                         int                   `json:"id"`
+	VariantID                  int                   `json:"variant_id"`
+	Title                      string                `json:"title"`
+	Quantity                   int                   `json:"quantity"`
+	Sku                        string                `json:"sku"`
+	VariantTitle               string                `json:"variant_title"`
+	Vendor                     interface{}           `json:"vendor"`
+	FulfillmentService         string                `json:"fulfillment_service"`
+	ProductID                  int                   `json:"product_id"`
+	RequiresShipping           bool                  `json:"requires_shipping"`
+	Taxable                    bool                  `json:"taxable"`
+	GiftCard                   bool                  `json:"gift_card"`
+	Name                       string                `json:"name"`
+	VariantInventoryManagement string                `json:"variant_inventory_management"`
+	Properties                 []Properties          `json:"properties"`
+	ProductExists              bool                  `json:"product_exists"`
+	FulfillableQuantity        int                   `json:"fulfillable_quantity"`
+	Grams                      int                   `json:"grams"`
+	Price                      string                `json:"price"`
+	TotalDiscount              string                `json:"total_discount"`
+	FulfillmentStatus          interface{}           `json:"fulfillment_status"`
+	PriceSet                   PriceSet              `json:"price_set"`
+	TotalDiscountSet           TotalDiscountSet      `json:"total_discount_set"`
+	DiscountAllocations        []DiscountAllocations `json:"discount_allocations"`
+	Duties                     []interface{}         `json:"duties"`
+	AdminGraphqlAPIID          string                `json:"admin_graphql_api_id"`
+	TaxLines                   []TaxLines            `json:"tax_lines"`
+	OriginLocation             OriginLocation   	 `json:"origin_location"`
+}
+
 // create new shopify instance
 func New(name, password string) (store Store) {
 	store.Name = name
@@ -50,7 +103,7 @@ func doRequest(store *Store, method, endpoint string, params []Param, body inter
 			queryString.Add(value.Key, fmt.Sprintf("%v", value.Value))
 		}
 	}
-	endpoint, client := fmt.Sprintf("https://%s.myshopify.com/admin/api/%s/%s?%s", store.Name, store.Version, endpoint, queryString.Encode()), &http.Client{}
+	endpoint, client := fmt.Sprintf("https://%s.myshopify.com/admin/api/%s%s?%s", store.Name, store.Version, endpoint, queryString.Encode()), &http.Client{}
 	req, err := http.NewRequest(strings.ToUpper(method), endpoint, bytes.NewBuffer(bodyJson))
 	handleError(err)
 	req.Header.Set("Content-Type", "application/json")
